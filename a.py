@@ -33,9 +33,9 @@ def N_R_mejorado(P0):
         if(error <= 0.000001):
         	print("dinr")
         	break
-
     print("iteraciones: ", iteraciones)
-    print("pn_sig", pn_sig)
+    print("pn", pn)
+    return pn, iteraciones
 
 def Newton_raphson(P_sub_0):
     P_sub_n=P_sub_0
@@ -49,10 +49,10 @@ def Newton_raphson(P_sub_0):
     	iteraciones = iteraciones + 1
     	#print(error)
     	if(error <= 0.000001):
-    		print("di")
     		break
     	
     print("resultado: ", p_sig,"ite: " ,iteraciones)
+    return p_sig, iteraciones
 
 
 def steffesen(P0):
@@ -70,28 +70,57 @@ def steffesen(P0):
         	print("distef")
         	break
         #print("x0,x1: ",x0,x1)
-    print("res: ", round(x1,6), "ite: ", iteraciones)
+    print("res: ", x1, "ite: ", iteraciones)
+    return x1, iteraciones
 
 def Secante(P_sub_0,P_sub_1):
     P_sub_n1=P_sub_0
     P_sub_n2=P_sub_1
-    cont=0
-    while(((f(P_sub_n2)-f(P_sub_n1)))* f(P_sub_n1) != 0.0):
-        print(P_sub_n1,P_sub_n2, P_sub_n1- ((P_sub_n2-P_sub_n1)/(f(P_sub_n2)-f(P_sub_n1)))* f(P_sub_n1))
+    iteraciones=0
+    while(1):
+        #print(P_sub_n1,P_sub_n2, P_sub_n1- ((P_sub_n2-P_sub_n1)/(f(P_sub_n2)-f(P_sub_n1)))* f(P_sub_n1))
+        #print(((f(P_sub_n2)-f(P_sub_n1)))* f(P_sub_n1))
         aux=P_sub_n2
         P_sub_n2=P_sub_n1- ((P_sub_n2-P_sub_n1)/(f(P_sub_n2)-f(P_sub_n1)))* f(P_sub_n1)
         P_sub_n1=aux
-        cont=cont+1
-    return P_sub_n1,P_sub_n2,cont
+        iteraciones = iteraciones + 1
+        error = error_absoluto(P_sub_n1,P_sub_n2)
+        if(error <= 0.000001):
+        	break
+        #print(P_sub_n1,"ite: ",iteraciones)
+    print("resultado: ", P_sub_n1, "iteraciones: ", iteraciones)
+    return P_sub_n1, iteraciones
 
-PS0=50
+def grafico1(a, b, c, d):
+	nombres = ['NR mejorado', 'Newton_raphson', 'steffesen', 'secante']
+	valores = [a, b, c, d]
+	fig, ax = plt.subplots()
+	ax.set_ylabel("valores")
+	ax.set_title("valorese obtenidos")
+	plt.bar(nombres, valores)
+	plt.show()
+
+def grafico2(a, b, c, d):
+	nombres = ['NR mejorado', 'Newton_raphson', 'steffesen', 'secante']
+	valores = [a, b, c, d]
+	fig, ax = plt.subplots()
+	ax.set_ylabel("iteraciones")
+	ax.set_title("numero de iteraciones")
+	plt.bar(nombres, valores)
+	plt.show()	
+
+PS0=5
 PS1=3
 
 print("NR mejorado") 
-N_R_mejorado(PS0)
-print("\nniuton")
-Newton_raphson(PS0)
-print("\nsteffesen")
-steffesen(PS0)
+nmr, nmi =N_R_mejorado(PS0)
+print("\nNewthon raphson")
+nrr, nri = Newton_raphson(PS0)
+print("\nSteffesen")
+sr, si = steffesen(PS0)
 print("\nSecante")
-Secante(PS0,PS1)
+scr, sci = Secante(PS0,PS1)
+
+
+grafico1(nmr, nrr, sr, scr)
+grafico2(nmi, nri, si, sci)
