@@ -97,6 +97,11 @@ def grafico1(a, b, c, d, e):
 	ax.set_ylabel("valores")
 	ax.set_title("valorese obtenidos")
 	plt.bar(nombres, valores)
+	i = 0
+	for a, b in zip(valores, nombres):
+		plt.plot(a, label=nombres[i]+': {}'.format(a))
+		i = i + 1
+	plt.legend()
 	plt.show()
 
 def grafico2(a, b, c, d, e):
@@ -106,10 +111,15 @@ def grafico2(a, b, c, d, e):
 	ax.set_ylabel("iteraciones")
 	ax.set_title("numero de iteraciones")
 	plt.bar(nombres, valores)
+	i = 0
+	for a, b in zip(valores, nombres):
+		plt.plot(a, label=nombres[i]+': {}'.format(a))
+		i = i + 1
+	plt.legend()
 	plt.show()	
 
 
-def falsa_posicion(a,b,iteraciones=5):
+def falsa_posicion(a,b):
     an = a
     bn = b
     print(an,bn,f(an), f(bn))
@@ -142,7 +152,7 @@ sr, si = steffesen(PS0)
 print("\nSecante")
 scr, sci = Secante(PS0,PS1)
 print("\nFalsa posicion")
-fpr, fpi = falsa_posicion(PS0,PS1,70)
+fpr, fpi = falsa_posicion(PS0,PS1)
 
 grafico1(nmr, nrr, sr, scr, fpr)
 grafico2(nmi, nri, si, sci, fpi)
