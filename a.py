@@ -16,7 +16,6 @@ def f_prima_prima(x):
     return y
 
 def error_absoluto(valor_real, valor_cifras_significativas):
-    #| real - punto flotante|
     return np.absolute((valor_real-valor_cifras_significativas))
 
 def N_R_mejorado(P0):
@@ -91,23 +90,44 @@ def Secante(P_sub_0,P_sub_1):
     print("resultado: ", P_sub_n1, "iteraciones: ", iteraciones)
     return P_sub_n1, iteraciones
 
-def grafico1(a, b, c, d):
-	nombres = ['NR mejorado', 'Newton_raphson', 'steffesen', 'secante']
-	valores = [a, b, c, d]
+def grafico1(a, b, c, d, e):
+	nombres = ['NR mejorado', 'Newton_raphson', 'steffesen', 'secante', 'falsa posicion']
+	valores = [a, b, c, d, e]
 	fig, ax = plt.subplots()
 	ax.set_ylabel("valores")
 	ax.set_title("valorese obtenidos")
 	plt.bar(nombres, valores)
 	plt.show()
 
-def grafico2(a, b, c, d):
-	nombres = ['NR mejorado', 'Newton_raphson', 'steffesen', 'secante']
-	valores = [a, b, c, d]
+def grafico2(a, b, c, d, e):
+	nombres = ['NR mejorado', 'Newton_raphson', 'steffesen', 'secante', 'falsa posicion']
+	valores = [a, b, c, d, e]
 	fig, ax = plt.subplots()
 	ax.set_ylabel("iteraciones")
 	ax.set_title("numero de iteraciones")
 	plt.bar(nombres, valores)
 	plt.show()	
+
+
+def falsa_posicion(a,b,iteraciones=5):
+    an = a
+    bn = b
+    print(an,bn,f(an), f(bn))
+    iteraciones = 0
+    while(1):
+        P_sub_n = bn - ((f(bn)*(bn - an)) / ( f(bn) -  f(an)))
+        #print(an,bn,P_sub_n, f(P_sub_n))
+        if(an == P_sub_n):
+        	print("di")
+        	break
+        if (f(an) * f(P_sub_n) > 0):
+            an=P_sub_n
+        elif( f(bn) * f(P_sub_n) > 0):
+            bn = P_sub_n
+        iteraciones = iteraciones + 1
+    print("resultado: ", P_sub_n, "iteraciones: ", iteraciones)
+    return P_sub_n, iteraciones
+
 
 PS0=5
 PS1=3
@@ -120,7 +140,8 @@ print("\nSteffesen")
 sr, si = steffesen(PS0)
 print("\nSecante")
 scr, sci = Secante(PS0,PS1)
+print("\nFalsa posicion")
+fpr, fpi = falsa_posicion(PS0,PS1,70)
 
-
-grafico1(nmr, nrr, sr, scr)
-grafico2(nmi, nri, si, sci)
+grafico1(nmr, nrr, sr, scr, fpr)
+grafico2(nmi, nri, si, sci, fpi)
