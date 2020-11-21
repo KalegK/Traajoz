@@ -117,8 +117,9 @@ def falsa_posicion(a,b,iteraciones=5):
     while(1):
         P_sub_n = bn - ((f(bn)*(bn - an)) / ( f(bn) -  f(an)))
         #print(an,bn,P_sub_n, f(P_sub_n))
-        if(an == P_sub_n):
-        	print("di")
+        error = error_absoluto(an, P_sub_n)
+        if(error <= 0.000001):
+        	print("di") 
         	break
         if (f(an) * f(P_sub_n) > 0):
             an=P_sub_n
